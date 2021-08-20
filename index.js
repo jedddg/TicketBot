@@ -4,6 +4,8 @@ const client = new Discord.Client({
 
 const config = require("./config.json");
 const Enmap = require("enmap")
+const cpustat = require("cpu-stat")
+const os = require("os")
 client.login(config.token);
 
 client.on("ready", () => {
@@ -22,7 +24,41 @@ client.on("message", async (message) => {
     let args = message.content.slice(config.prefix.length).trim().split(" ");
     let cmd = args.shift();
 
-    if(cmd.toLocaleLowerCase('setup-ticket')) {
+    
+    if(cmd === ("help")) {
+        let helpembed = new Discord.MessageEmbed()
+        .setTitle("Gives you Information about all Commands!")
+        .addField("<:arrow:877919972595204166> ``help``", `Show you this Embed!`)
+        .addField("<:arrow:877919972595204166> ``invite``", `Gives you the invite link of ${client.user.username}!`)
+        .addField("<:arrow:877919972595204166> ``about``", `Gives you informations about ${client.user.username}!`)
+        .addField("<:arrow:877919972595204166> ``setup-ticket``", `Setting up the Ticket-System!`)
+        .setColor("#43C19F")
+        message.channel.send(helpembed);
+    }
+    if(cmd === ("about")) {
+        let aboutembed = new Discord.MessageEmbed()
+        .setTitle(`Here are some informations about ${client.user.username}!`)
+        .addField("Made by:", `${client.user.username} is made by <@544176059516583946>`)
+        .addField("Guild amount:", `${client.user.username} is on ${client.guilds.cache.size} Guilds!`)
+        .addField("User amount:", `${client.user.username} is in connection with ${client.users.cache.size} Users!`)
+        .addField("Platform:", `${os.platform()} ${ os.arch()}`)
+        .addField("CPU:", `${os.cpus().map((i) => `${i.model}`)[0]}`)
+        .addField("Ram:", `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}/ ${(os.totalmem() / 1024 / 1024).toFixed(2)}mb`)
+        .addField("Discord Version:", `${Discord.version}`)
+        .addField("Version:", `This is version \`\`1.0.0\`\` of ${client.user.username}!`)
+        .addField("When i was Developed?", `I was developed in one day at 20.08.2021!`)
+        .setColor("#43C19F")
+        message.channel.send(aboutembed);
+    }
+    if(cmd === ("invite")) {
+        let inviteembed = new Discord.MessageEmbed()
+        .setTitle('Here you can get my invite link!')
+        .setDescription("Just press [here](https://discord.com/api/oauth2/authorize?client_id=877869083855581234&permissions=8&scope=bot)!")
+        .setColor("#43C19F")
+        message.channel.send(inviteembed);
+    }
+
+    if(cmd === ('setup-ticket')) {
         let perms = message.member.hasPermission("ADMINISTRATOR");
         let channel = message.mentions.channels.first();
 
@@ -104,10 +140,5 @@ client.on("message", async (message) => {
             }
         }
     }
-    if(cmd.toLocaleLowerCase("help")) {
-        let helpembed = new Discord.MessageEmbed()
-        .setTitle("Gives you Information about all Commands!")
-        .addField("<:arrow:877919972595204166> ``help``", `Show you this Embed!`)
-        message.channel.send(helpembed)
-    }
+
 })
