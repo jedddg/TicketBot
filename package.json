@@ -1,17 +1,17 @@
 {
   "name": "ticket-bot",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
+  "author": "Shoda1966",
   "license": "ISC",
   "dependencies": {
     "ascii-table": "0.0.9",
+    "colors": "^1.4.0",
     "cpu-stat": "^2.0.1",
-    "discord.js": "^12.5.3",
-    "enmap": "^5.8.7"
+    "discord.js": "^13.4.0",
+    "enmap": "^5.8.7",
+    "fs": "^0.0.1-security",
+    "os": "^0.1.2"
   }
 }

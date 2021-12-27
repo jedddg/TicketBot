@@ -1,23 +1,26 @@
 const Discord = require("discord.js");
-const config = require("../botconfig/config.json");
-module.exports = function(client) {
-    client.on("message", async (message) => {
+module.exports = function (client) {
+    client.on("messageCreate", async (message) => {
         let prefix = 't!';
+
 
         const curperf = client.prefix.get(message.guild.id, `prefix`);
         if (!curperf) {
-        prefix = "t!";
+            prefix = "t!"
         } else {
-        prefix = client.prefix.get(message.guild.id, `prefix`);
-        }
+            prefix = client.prefix.get(message.guild.id, `prefix`)
+        };
 
 
-        if(message.mentions.has(client.user)){
+        if (message.mentions.has(client.user)) {
             let mentionedembed = new Discord.MessageEmbed()
-            .setTitle(`Thats me, ${client.user.username}`)
-            .setDescription(`My standard prefix is \`\`t!\`\` \n The prefix for this server is ${prefix} \n **You can invite me [here](https://discord.com/api/oauth2/authorize?client_id=877869083855581234&permissions=8&scope=bot)!**`)
-            .setColor(config.color)
-            message.channel.send(mentionedembed);
+                .setTitle(`Thats me, ${client.user.username}`)
+                .setDescription(`My standard prefix is \`\`t!\`\` \n The prefix for this server is \`${prefix}\` \n **You can invite me [here](https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot%20applications.commands)!**`)
+                .setColor(color);
+
+            message.channel.send({
+                embeds: [mentionedembed]
+            })
         }
     })
-}
+};
