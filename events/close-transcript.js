@@ -1,27 +1,26 @@
 const Discord = require("discord.js");
-module.exports = function(client) {
-    client.on("messageReactionAdd", async (reaction, user) => {
-        const {message} = reaction;
 
-        if(reaction.message.partial) await reaction.message.fetch();
+module.exports = function (client) {
+    client.on("messageReactionAdd", async (messageReaction, user) => {
+        const { message, emoji } = messageReaction;
 
-        if(reaction.partial) await reaction.fetch();
+        if (messageReaction?.partial) await messageReaction.fetch();
 
-        if(user.bot) return;
+        if (message?.partial) await messageReaction.message.fetch();
 
-        if(reaction.emoji.name === '⛔') {
-            await reaction.remove(user)
-            if(!reaction.message.channel.name.includes('ticket')) {
-                return reaction.message.channel.send('This is not a Ticket Channel!').then( msg  => {
-                    setTimeout(() =>  msg.delete(), 5000)
-                });
-            }
-            else {
-               
-                reaction.message.channel.send('This channel got deleted in 5 seconds!').then( () => {
-                    setTimeout(() => reaction.message.channel.delete(), 5000)
-                });
+        if (user.bot) return;
+
+        if (emoji.name === '⛔') {
+            await messageReaction.remove(user);
+            if (!message.channel.name.includes('ticket')) {
+                return message.channel.send('This is not a Ticket Channel!').then(msg => {
+                    setTimeout(() => msg.delete(), 5000)
+                })
+            } else {
+                message.channel.send('This channel will be deleted in 5 seconds!').then(() => {
+                    setTimeout(() => message.channel.delete(), 5000)
+                })
             }
         }
-    });
-}
+    })
+};
